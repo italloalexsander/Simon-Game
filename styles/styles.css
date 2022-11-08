@@ -1,3 +1,9 @@
 body{
-  background-color: aquamarine;
+  background-color: #001253;
+  text-align: center;
+}
+
+.title-text{
+  font-family: 'Press Start 2P', cursive;
+  color: #FD841F;
 }
