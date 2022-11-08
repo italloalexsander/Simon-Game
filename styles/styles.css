@@ -7,3 +7,28 @@ body{
   font-family: 'Press Start 2P', cursive;
   color: #FD841F;
 }
+
+.button{
+  display: inline-block;
+  height: 200px;
+  width: 200px;
+  border-radius: 10%;
+  border: 5px solid;
+  margin: 10px;
+}
+
+.red{
+  background-color: #7A0000
+}
+
+.yellow{
+  background-color: #FFFF00
+}
+
+.green{
+  background-color: #008000
+}
+
+.blue{
+  background-color: #2986cc
+}
