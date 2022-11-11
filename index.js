@@ -48,11 +48,15 @@ async function levelCheck(){
     answer = ""
     currentLevel = 1;
     $(".title-text").text("Errou, aperte uma tecla pra Recomeçar")
+    var audio = new Audio("sounds/wrong.mp3");
+    audio.play();
     gameBind();
   }
 }
 
 function animateButton(name){
+  var audio = new Audio("sounds/" + name + ".mp3");
+  audio.play();
   $("."+name).animate({opacity: "1.0", height: "210px", width: "210px"}, 400).animate({
     opacity: "0.4", height: "200px", width: "200px"}, 400)
 }
