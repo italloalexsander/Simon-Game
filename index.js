@@ -1,49 +1,105 @@
-$("h1").css("color", "blue");
+let answer = ""
+let currentLevel = 1;
 
-function playButton(button){
-  console.log(button);
-  if(button === 1){
-    $(".red").animate({opacity: "1.0", height: "210px", width: "210px"}, 300);
+
+function allowButtonsClick(){
+  $(".button").click(function(e){
+    var buttonClicked = e.target.classList[1];
+    animateButton(buttonClicked);
+    if(buttonClicked === 'red'){
+      userAnswer = userAnswer + '1';
+    }
+    if(buttonClicked === 'green'){
+      userAnswer = userAnswer + '2';
+    }
+    if(buttonClicked === 'blue'){
+      userAnswer = userAnswer + '3';
+    }
+    if(buttonClicked === 'yellow'){
+      userAnswer = userAnswer + '4';
+    }
+  })
+}
+
+function disallowButtonsClick(){
+  $(".button").unbind();
+}
+
+function checkResult(){
+  if(userAnswer === answer){
+    return 1;
   }
-  else if(button === 2){
-    $(".green").animate({opacity: "1.0", height: "210px", width: "210px"}, 300);
+  return 0;
+}
+
+async function levelCheck(){
+  allowButtonsClick();
+  while(userAnswer.length < answer.length){
+    await timer(800);
   }
-  else if(button === 3){
-    $(".blue").animate({opacity: "1.0", height: "210px", width: "210px"}, 300);
+  disallowButtonsClick();
+  if(checkResult()){
+    userAnswer = ""
+    currentLevel++;
+    levelStart(currentLevel)
   }
-  else if(button === 4){
-    $(".yellow").animate({opacity: "1.0", height: "210px", width: "210px"}, 300);
+  else{
+    userAnswer = ""
+    answer = ""
+    currentLevel = 1;
+    $(".title-text").text("Errou, aperte uma tecla pra Recomeçar")
+    gameBind();
   }
+}
+
+function animateButton(name){
+  $("."+name).animate({opacity: "1.0", height: "210px", width: "210px"}, 400).animate({
+    opacity: "0.4", height: "200px", width: "200px"}, 400)
+}
+
+function timer(ms) { return new Promise(res => setTimeout(res, ms)); }
+
+async function levelShow(string){
+  var lengthOfLevel = string.length;
+  for(let i = 0; i < lengthOfLevel; i++){
+    await timer(800);
+    if(string[i] === '1'){
+      animateButton("red");
+    }
+    else if(string[i] === '2'){
+      animateButton("green");
+    }
+    else if(string[i] === '3'){
+      animateButton("blue");
+    }
+    else if(string[i] === '4'){
+      animateButton("yellow");
+    }
+  }
+  levelCheck();
 }
 
 
 function levelStart(levelNumber){
-  var randomNumber;
-  var answer = "";
-  for(i = 0; i < levelNumber; i++){
-    randomNumber = Math.floor(Math.random()*4) + 1;
-    playButton(randomNumber);
-    answer += randomNumber.toString;
-  }
+  $(".title-text").text("Level " + levelNumber)
+  let randomNumber;
+  userAnswer = "";
+  randomNumber = Math.floor(Math.random()*4) + 1;
+  answer += randomNumber.toString();
+  levelShow(answer);
 }
 
 function gameStart(){
-  var level = 3;
-  levelStart(level)
-  /*while(level){
-    if(levelStart(level)){
-      level++;
-    }
-    else{
-      level = 0;
-    }
-  }
-  gameEnd(){}*/
-
+  $(document).unbind();
+  levelStart(currentLevel)
 }
 
 
 
-$(document).keypress(function(){
-  gameStart();
-})
+function gameBind(){
+  $(document).keypress(function(){
+    gameStart(); 
+  })
+}
+
+gameBind();
